@@ -1,5 +1,5 @@
 {
-  "name": "serverSideInventory-master",
+  "name": "server-side-inventory-master",
   "version": "1.0.0",
   "description": "Server Side Inventory == Tech: JQuery, Node, Express, AJAX --- In this project we'll create a project that tracks an inventory on the server.",
   "main": "index.js",

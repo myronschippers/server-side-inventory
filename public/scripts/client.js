@@ -13,11 +13,7 @@ function submitAddToInventory(event) {
     event.preventDefault();
     const $addForm = $(this);
     const formDataArray = $addForm.serializeArray();
-    const addObject = {};
-
-    for (let fieldData of formDataArray) {
-        addObject[fieldData.name] = fieldData.value;
-    }
+    const addObject = mapFormArrayToObject(formDataArray);
 
     $addForm.children().each(function() {
         $(this).val('');
@@ -33,7 +29,33 @@ function submitAddToInventory(event) {
     });
 }
 
-function submitSearch(event) {}
+function submitSearch(event) {
+    event.preventDefault();
+    console.log('SEARCH event: ', event);
+    const $searchForm = $(this);
+    const formDataArray = $searchForm.serializeArray();
+    const searchObject = mapFormArrayToObject(formDataArray);
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/inventory/search',
+        data: searchObject,
+    })
+    .then(function(response) {
+        console.log('SEARCH response: ', response);
+        render(response, true);
+    });
+}
+
+function mapFormArrayToObject(formArray) {
+    const formObject = {};
+
+    for (let fieldData of formArray) {
+        formObject[fieldData.name] = fieldData.value;
+    }
+
+    return formObject;
+}
 
 // API / AJAX CALLS
 
@@ -50,8 +72,14 @@ function getInventory() {
 
 // RENDER TO DOM
 
-function render(inventoryList) {
+function render(inventoryList, isSearch) {
     const $inventoryElem = $('.js-inventory-results');
+
+    if (isSearch && inventoryList.length === 0) {
+        $inventoryElem.append(`<li>No matches have been found.</li>`);
+    } else if (inventoryList.length === 0) {
+        $inventoryElem.append(`<li>There is nothing in inventory</li>`);
+    }
 
     $inventoryElem.empty()
     for (let inventoryItem of inventoryList) {

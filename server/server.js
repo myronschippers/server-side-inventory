@@ -28,9 +28,10 @@ app.post('/api/inventory', (req, res) => {
 
 app.post('/api/inventory/search', (req, res) => {
     const searchResults = [];
-    const searchString = req.body;
+    const searchString = req.body.search.toLowerCase();
     for (let inventoryItem of inventory) {
-        if (inventoryItem.name.includes(searchString)) {
+        const nameToMatch = inventoryItem.name.toLowerCase();
+        if (nameToMatch.includes(searchString)) {
             searchResults.push(inventoryItem);
         }
     }

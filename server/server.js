@@ -10,7 +10,7 @@ app.listen(port, () => {
 })
 
 // Setting up needed middleware
-app.use(express.static('../public'));
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes will go below here

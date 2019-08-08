@@ -23,7 +23,7 @@ app.post('/api/inventory', (req, res) => {
     const newInventoryItem = req.body;
     inventory.push(newInventoryItem);
 
-    res.status(201);
+    res.sendStatus(201);
 });
 
 app.post('/api/inventory/search', (req, res) => {

@@ -9,7 +9,29 @@ function init() {
 
 // EVENT HANDLERS
 
-function submitAddToInventory(event) {}
+function submitAddToInventory(event) {
+    event.preventDefault();
+    const $addForm = $(this);
+    const formDataArray = $addForm.serializeArray();
+    const addObject = {};
+
+    for (let fieldData of formDataArray) {
+        addObject[fieldData.name] = fieldData.value;
+    }
+
+    $addForm.children().each(function() {
+        $(this).val('');
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/inventory',
+        data: addObject,
+    })
+    .then(function(response) {
+        getInventory();
+    });
+}
 
 function submitSearch(event) {}
 
